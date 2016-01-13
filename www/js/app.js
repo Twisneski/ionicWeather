@@ -24,37 +24,50 @@ angular.module('starter', ['ionic'])
 })
 
 .controller('weatherCtrl', function($http){
-  var weather = this;
-  weather.temp = '--';
-  weather.desc = 'loading...';
+  var weather = this; 
+ 
+  
+  var apikey = '364f5b5e3161048c'
+  var url = 'http://api.wunderground.com/api/' + apikey + '/conditions/q/';
 
-  function getTemp(){
-    // navigator.geolocation.getCurrentPosition(function (geopos) { 
-      // var lat = geopos.coords.latitude;
-      // var long = geopos.coords.longitude;
-      // var geolookup = geopos.coords.geolookup;
-      var apikey = '364f5b5e3161048c'
-      var url = 'http://api.wunderground.com/api/364f5b5e3161048c/geolookup/q/autoip.json';
-
+  $http.get(url + 'autoip.json').then(parseWUData);
       // http://api.wunderground.com/api/364f5b5e3161048c/geolookup/q/autoip.json
 
+   navigator.geolocation.getCurrentPosition(function (geopos) { 
+    var lat = geopos.coords.latitude;
+    var long = geopos.coords.longitude;
+      
       $http
         .get(url + lat + ',' + long + '.json')
-        .then(function (res) {
-       
-        weather.high_temp = math.round(res.data.simpleforecast.forecastday.high);
-        weather.low_temp = math.round(res.data.simpleforecast.forecastday.low);
-        weather.location = data.display_location.full;
-
-        // weather.icon = res.data.currently.icon;
-        // weather.desc = res.data.currently.summary;
+        .then(parseWUData);
       });
-    getTemp();
 
-    weather.updateThis = function() {
+     weather.temp = '--';
+  
+    weather.search = function () {
+      $http
+      .get(url + weather.searchQuery + '.json')
+      .then(parseWUData);
     }
-  }
-})
+
+    function parseWUData(res) {
+      var data = res.data.current_observation;
+    
+      weather.location = data.display_location.full;
+      weather.temp = parseInt(data.temp_f);
+      weather.image = data.icon_url;
+
+    }
+
+  });
+
+
+
+
+
+
+
+
 
 
 
