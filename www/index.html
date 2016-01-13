@@ -25,10 +25,20 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">Ionic Weather App</h1>
       </ion-header-bar>
-      <ion-content>
-      </ion-content>
+        <ion-content ng-controller="weatherCtrl as weather">
+          <div class="row">
+            <div class="col col-80 col-offset-10">
+              <div class="temp-box">{{weather.temp}}℉</div>
+              <div class="img-box {{weather.icon}}"></div>
+              <p class="captioned">The Weather is: {{weather.desc}}</p>
+            </div>
+          </div>
+          <button class="button button-block button-dark" ng-click="weather.updateThis()">
+          Update Info
+          </button>
+        </ion-content>
     </ion-pane>
   </body>
 </html>

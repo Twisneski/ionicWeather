@@ -22,3 +22,29 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.controller('weatherCtrl', function($http){
+  var weather = this;
+  weather.temp = '--';
+  weather.desc = 'loading...';
+
+  function getTemp(){
+    navigator.geolocation.getCurrentPosition(function (geopos) { 
+      var lat = geopos.coords.latitude;
+      var long = geopos.coords.longitude;
+      var apikey = '21e165a7d69331ee8caac56baa4866b9'
+      var url = '/api/forecast/' + apikey + '/' + lat + ',' + long;
+
+      $http.get(url).then(function (res) {
+        weather.temp = math.round(res.data.currently.temperature);
+        weather.icon = res.data.currently.icon;
+        weather.desc = res.data.currently.summary;
+      });
+    });
+    getTemp();
+
+    weather.updateThis = function() {
+    }
+  }
+})
+
