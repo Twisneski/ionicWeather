@@ -30,7 +30,9 @@
         <ion-content ng-controller="weatherCtrl as weather">
           <div class="row">
             <div class="col col-80 col-offset-10">
-              <div class="temp-box">{{weather.temp}}℉</div>
+              <div class="temp-box">{{weather.high_temp}}℉</div>
+              <div class="temp-box">{{weather.low_temp}}℉</div>
+              <div class="">{{weather.location}}℉</div>
               <div class="img-box {{weather.icon}}"></div>
               <p class="captioned">The Weather is: {{weather.desc}}</p>
             </div>

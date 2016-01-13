@@ -29,22 +29,35 @@ angular.module('starter', ['ionic'])
   weather.desc = 'loading...';
 
   function getTemp(){
-    navigator.geolocation.getCurrentPosition(function (geopos) { 
-      var lat = geopos.coords.latitude;
-      var long = geopos.coords.longitude;
-      var apikey = '21e165a7d69331ee8caac56baa4866b9'
-      var url = '/api/forecast/' + apikey + '/' + lat + ',' + long;
+    // navigator.geolocation.getCurrentPosition(function (geopos) { 
+      // var lat = geopos.coords.latitude;
+      // var long = geopos.coords.longitude;
+      // var geolookup = geopos.coords.geolookup;
+      var apikey = '364f5b5e3161048c'
+      var url = 'http://api.wunderground.com/api/364f5b5e3161048c/geolookup/q/autoip.json';
 
-      $http.get(url).then(function (res) {
-        weather.temp = math.round(res.data.currently.temperature);
-        weather.icon = res.data.currently.icon;
-        weather.desc = res.data.currently.summary;
+      // http://api.wunderground.com/api/364f5b5e3161048c/geolookup/q/autoip.json
+
+      $http
+        .get(url + lat + ',' + long + '.json')
+        .then(function (res) {
+       
+        weather.high_temp = math.round(res.data.simpleforecast.forecastday.high);
+        weather.low_temp = math.round(res.data.simpleforecast.forecastday.low);
+        weather.location = data.display_location.full;
+
+        // weather.icon = res.data.currently.icon;
+        // weather.desc = res.data.currently.summary;
       });
-    });
     getTemp();
 
     weather.updateThis = function() {
     }
   }
 })
+
+
+
+
+
 
