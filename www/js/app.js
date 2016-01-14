@@ -47,8 +47,23 @@ angular.module('starter', ['ionic'])
     weather.search = function () {
       $http
       .get(url + weather.searchQuery + '.json')
-      .then(parseWUData);
-    }
+      .then(parseWUData)
+      .then(function(res){
+          
+          var history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+          //pulls in json items (array in) from local storage
+          console.log("res", res);
+          
+          
+        history.push(res.data.current_observation.station_id);
+        //gets the station id from retrieved data(res) then pushes it into the history array
+        localStorage.setItem("searchHistory", JSON.stringify(history));
+        //takes the history array and makes it a string and stores in local storage
+
+      })
+    };
+      
+    
 
     function parseWUData(res) {
       var data = res.data.current_observation;
@@ -57,9 +72,11 @@ angular.module('starter', ['ionic'])
       weather.temp = parseInt(data.temp_f);
       weather.image = data.icon_url;
 
+      return res;
     }
-
-  });
+  })
+    
+  
 
 
 
